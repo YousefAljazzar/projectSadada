@@ -8,4 +8,9 @@
 	<ItemGroup>
 		<PackageReference Include="AutoMapper" Version="12.0.0" />
 	</ItemGroup>
+
+
+	<ItemGroup>
+	  <ProjectReference Include="..\SadadDbModel\SadadDbModel.csproj" />
+	</ItemGroup>
 </Project>

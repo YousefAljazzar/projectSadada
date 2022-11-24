@@ -47,10 +47,15 @@ namespace SadadDbModel.dbContext
                     .HasColumnType("tinyint")
                     .HasDefaultValueSql("'0'");
 
-                entity.Property(e => e.Name)
+                entity.Property(e => e.FirstName)
                     .IsRequired()
                     .HasMaxLength(255)
-                    .HasColumnName("name");
+                    .HasColumnName("FirstName");
+
+                entity.Property(e => e.LastName)
+                   .IsRequired()
+                   .HasMaxLength(255)
+                   .HasColumnName("LastName");
 
                 entity.Property(e => e.Password)
                     .IsRequired()
