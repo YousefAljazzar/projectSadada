@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -11,6 +11,9 @@
 
 
 	<ItemGroup>
+	  <ProjectReference Include="..\Sadada.Common\Sadada.Common.csproj" />
 	  <ProjectReference Include="..\SadadDbModel\SadadDbModel.csproj" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.16" />
+		<PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
 	</ItemGroup>
 </Project>

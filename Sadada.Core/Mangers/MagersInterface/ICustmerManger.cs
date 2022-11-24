@@ -10,6 +10,6 @@ namespace Sadada.Core.Mangers.MagersInterface
 {
     public interface ICustmerManger
     {
-        public void CreateCustmer(CreateCustmerView custmer);
+        public RegisterCompleteView CreateCustmer(CreateCustmerView custmer);
     }
 }
