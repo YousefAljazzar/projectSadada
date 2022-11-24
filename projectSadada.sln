@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "projectSadada", "projectSad
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SadadDbModel", "SadadDbModel\SadadDbModel.csproj", "{AF5AA6F4-707F-4963-BB66-BCC4C2D19D31}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sadada.Core", "Sadada.Core\Sadada.Core.csproj", "{FA10FDF8-54A3-47F7-891C-1434384CA9C9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{AF5AA6F4-707F-4963-BB66-BCC4C2D19D31}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF5AA6F4-707F-4963-BB66-BCC4C2D19D31}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF5AA6F4-707F-4963-BB66-BCC4C2D19D31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA10FDF8-54A3-47F7-891C-1434384CA9C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA10FDF8-54A3-47F7-891C-1434384CA9C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA10FDF8-54A3-47F7-891C-1434384CA9C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA10FDF8-54A3-47F7-891C-1434384CA9C9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

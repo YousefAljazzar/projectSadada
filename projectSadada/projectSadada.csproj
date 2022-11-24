@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Sadada.Core\Sadada.Core.csproj" />
     <ProjectReference Include="..\SadadDbModel\SadadDbModel.csproj" />
   </ItemGroup>
 

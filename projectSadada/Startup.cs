@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -7,6 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Sadada.Core;
+using Sadada.Core.Mapper;
 using SadadDbModel.dbContext;
 using System;
 using System.Collections.Generic;
@@ -17,9 +20,14 @@ namespace projectSadada
 {
     public class Startup
     {
+        private MapperConfiguration _mapperConfiguration;
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
+            _mapperConfiguration = new MapperConfiguration(a => {
+                a.AddProfile(new Mapping());
+            });
         }
 
         public IConfiguration Configuration { get; }
@@ -30,6 +38,7 @@ namespace projectSadada
 
             services.AddControllers();
             services.AddDbContext<sadaddbContext>();
+            services.AddSingleton(sp => _mapperConfiguration.CreateMapper());
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "projectSadada", Version = "v1" });
