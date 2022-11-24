@@ -1,0 +1,104 @@
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
+
+#nullable disable
+
+namespace SadadDbModel.dbContext
+{
+    public partial class sadaddbContext : DbContext
+    {
+        public sadaddbContext()
+        {
+        }
+
+        public sadaddbContext(DbContextOptions<sadaddbContext> options)
+            : base(options)
+        {
+        }
+
+        public virtual DbSet<Custmer> Custmers { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<Transaction> Transactions { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=root;database=sadaddb");
+            }
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Custmer>(entity =>
+            {
+                entity.ToTable("custmer");
+
+                entity.HasIndex(e => e.Id, "Id_UNIQUE")
+                    .IsUnique();
+
+                entity.Property(e => e.Email)
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .HasColumnName("email");
+
+                entity.Property(e => e.IsAracived)
+                    .HasColumnType("tinyint")
+                    .HasDefaultValueSql("'0'");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .HasColumnName("name");
+
+                entity.Property(e => e.Password)
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .HasColumnName("password");
+            });
+
+            modelBuilder.Entity<Product>(entity =>
+            {
+                entity.ToTable("product");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .HasColumnName("name");
+
+                entity.Property(e => e.Price)
+                    .HasColumnType("decimal(11,0)")
+                    .HasColumnName("price");
+            });
+
+            modelBuilder.Entity<Transaction>(entity =>
+            {
+                entity.ToTable("transaction");
+
+                entity.HasIndex(e => e.UserId, "CustmerID_idx");
+
+                entity.HasIndex(e => e.ProductId, "ProductID_idx");
+
+                entity.Property(e => e.Coantity).HasColumnName("coantity");
+
+                entity.HasOne(d => d.Product)
+                    .WithMany(p => p.Transactions)
+                    .HasForeignKey(d => d.ProductId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("ProductID");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Transactions)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("CustmerID");
+            });
+
+            OnModelCreatingPartial(modelBuilder);
+        }
+
+        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+    }
+}

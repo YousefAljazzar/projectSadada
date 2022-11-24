@@ -5,6 +5,8 @@ VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "projectSadada", "projectSadada\projectSadada.csproj", "{6A562411-595B-41E3-B558-048F6F7851EF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SadadDbModel", "SadadDbModel\SadadDbModel.csproj", "{AF5AA6F4-707F-4963-BB66-BCC4C2D19D31}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{6A562411-595B-41E3-B558-048F6F7851EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A562411-595B-41E3-B558-048F6F7851EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6A562411-595B-41E3-B558-048F6F7851EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF5AA6F4-707F-4963-BB66-BCC4C2D19D31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF5AA6F4-707F-4963-BB66-BCC4C2D19D31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF5AA6F4-707F-4963-BB66-BCC4C2D19D31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF5AA6F4-707F-4963-BB66-BCC4C2D19D31}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
