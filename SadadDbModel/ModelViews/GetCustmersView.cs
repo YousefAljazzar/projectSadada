@@ -8,8 +8,7 @@ namespace SadadDbModel.ModelViews
 {
     public class GetCustmersView
     {
-        public string Firstname { get; set; }
-        public string Lastname { get; set; }
+       public string FullName { get; set; }
 
         public double TotalDept { get; set; }
     }

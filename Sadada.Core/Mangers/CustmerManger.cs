@@ -59,8 +59,7 @@ namespace Sadada.Core.Mangers
         {
             var custmersList = _sadaddbContext.Custmers.Select(a=>new GetCustmersView
             {
-                Firstname = a.FirstName,
-                Lastname = a.LastName,
+                FullName=$"{a.FirstName} {a.LastName}",
                 TotalDept=a.TotalDept
             }).ToList();
 
