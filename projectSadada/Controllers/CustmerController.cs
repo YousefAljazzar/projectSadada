@@ -43,6 +43,15 @@ namespace projectSadada.Controllers
             return Ok(res);
         }
 
+        [Route("RegisterDept")]
+        [HttpPost]
+        public IActionResult RegisterDebt(int custmerId,string productName)
+        {
+            _custmerManger.RegisterDebt(custmerId,productName);
+
+            return Ok();
+        }
+
 
 
 

@@ -64,6 +64,24 @@ namespace Sadada.Core.Mangers
             }).ToList();
 
             return custmersList;
+        }
+
+        public void RegisterDebt(int custmerId,string productName)
+        {
+            var custmer=_sadaddbContext.Custmers.FirstOrDefault(a=>a.Id==custmerId)
+                                                ??throw new SadadaException("Not Found");
+
+            var product = _sadaddbContext.Products.FirstOrDefault(a => a.Name.Equals(productName));
+
+            var trans = _sadaddbContext.Transactions.Add(new Transaction
+            {
+                ProductId=product.Id,
+                UserId=custmer.Id
+            }).Entity;
+
+            custmer.TotalDept = custmer.TotalDept + product.Price;
+            _sadaddbContext.Custmers.Update(custmer);
+            _sadaddbContext.SaveChanges();
 
         }
 
