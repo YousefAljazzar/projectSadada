@@ -2,6 +2,7 @@
 using Sadada.Core.Mangers.MagersInterface;
 using SadadDbModel.dbContext;
 using SadadDbModel.ModelViews;
+using System.Collections.Generic;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -17,7 +18,7 @@ namespace projectSadada.Controllers
         {
             _custmerManger = custmerManger;
         }
-
+        [Route("Register")]
         [HttpPost]
         public IActionResult RegisterCustmer(CreateCustmerView custmer)
         {
@@ -32,7 +33,18 @@ namespace projectSadada.Controllers
             return "value";
         }
 
-  
+        // GET api/<CustmerController>/5
+        [Route("GetAllCustmers")]
+        [HttpGet]
+        public IActionResult GetAllCustmers()
+        {
+            var res = _custmerManger.GetAllCustmers();
+
+            return Ok(res);
+        }
+
+
+
 
         // PUT api/<CustmerController>/5
         [HttpPut("{id}")]

@@ -11,5 +11,7 @@ namespace Sadada.Core.Mangers.MagersInterface
     public interface ICustmerManger
     {
         public RegisterCompleteView CreateCustmer(CreateCustmerView custmer);
+
+        public List<GetCustmersView> GetAllCustmers();
     }
 }

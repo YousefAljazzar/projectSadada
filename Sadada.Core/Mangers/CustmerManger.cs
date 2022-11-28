@@ -5,6 +5,7 @@ using Sadada.Core.Mangers.MagersInterface;
 using SadadDbModel.dbContext;
 using SadadDbModel.ModelViews;
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -54,6 +55,19 @@ namespace Sadada.Core.Mangers
 
 
 
+        public List<GetCustmersView> GetAllCustmers()
+        {
+            var custmersList = _sadaddbContext.Custmers.Select(a=>new GetCustmersView
+            {
+                Firstname = a.FirstName,
+                Lastname = a.LastName,
+                TotalDept=a.TotalDept
+            }).ToList();
+
+            return custmersList;
+
+        }
+
 
 
 
@@ -99,6 +113,8 @@ namespace Sadada.Core.Mangers
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
+     
 
         #endregion private 
     }

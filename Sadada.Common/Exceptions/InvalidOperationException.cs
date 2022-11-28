@@ -12,6 +12,7 @@ namespace ExceptionsMid.Exceptions
         {
         }
 
+
         public InvalidOperationException(string message) : base(message)
         {
         }

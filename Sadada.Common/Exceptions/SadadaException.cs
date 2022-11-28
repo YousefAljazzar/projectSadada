@@ -6,7 +6,7 @@ namespace ToDoList.Common.Extensions
     {
         public int ErrorCode { get; set; }
 
-        public SadadaException() : base("Yousef Exception")
+        public SadadaException() : base("Sadada Exception")
         {
         }
 

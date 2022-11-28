@@ -69,6 +69,11 @@ namespace SadadDbModel.dbContext
                 entity.Property(e => e.UpdateDate)
                       .HasColumnType("datetime")
                       .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.TotalDept)
+                .HasMaxLength(255)
+                .HasColumnType("DECIMAL(11,0)")
+                .HasColumnName("TotalDept");
             });
 
             modelBuilder.Entity<Product>(entity =>
