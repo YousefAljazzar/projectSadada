@@ -28,9 +28,10 @@ namespace projectSadada.Controllers
 
         // GET api/<CustmerController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public Custmer Get(int id)
         {
-            return "value";
+            var res = _custmerManger.GetById(id);
+            return res;
         }
 
         // GET api/<CustmerController>/5

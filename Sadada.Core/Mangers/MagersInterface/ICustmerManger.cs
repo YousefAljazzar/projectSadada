@@ -12,6 +12,8 @@ namespace Sadada.Core.Mangers.MagersInterface
     {
         public RegisterCompleteView CreateCustmer(CreateCustmerView custmer);
 
+        public Custmer GetById(int id);
+
         public List<GetCustmersView> GetAllCustmers();
 
         public void RegisterDebt( int custmerId, string productName);

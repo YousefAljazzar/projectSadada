@@ -25,7 +25,7 @@ namespace SadadDbModel.dbContext
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=root;database=sadaddb");
+                optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=alisaqer@1994;database=sadaddb");
             }
         }
 

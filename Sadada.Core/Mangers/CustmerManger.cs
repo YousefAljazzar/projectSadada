@@ -53,7 +53,11 @@ namespace Sadada.Core.Mangers
 
         }
 
-
+        public Custmer GetById (int id)
+        {
+            var newCustmer = _sadaddbContext.Custmers.Find(id);
+            return newCustmer;
+        }
 
         public List<GetCustmersView> GetAllCustmers()
         {
