@@ -18,6 +18,8 @@ namespace projectSadada.Controllers
         {
             _custmerManger = custmerManger;
         }
+
+
         [Route("Register")]
         [HttpPost]
         public IActionResult RegisterCustmer(CreateCustmerView custmer)

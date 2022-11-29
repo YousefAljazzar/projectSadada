@@ -91,6 +91,14 @@ namespace projectSadada
                      };
                  });
 
+            services.AddCors(o => o.AddPolicy("sadadPolciy", policy =>
+            {
+                policy.WithOrigins("http://127.0.0.1:5500")
+                       .WithMethods()
+                       .AllowAnyHeader()
+                       .AllowCredentials();
+            }));
+
             services.AddScoped<ICustmerManger, CustmerManger>();
         }
 
@@ -107,6 +115,8 @@ namespace projectSadada
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors("sadadPolciy");
 
             app.UseAuthorization();
 
