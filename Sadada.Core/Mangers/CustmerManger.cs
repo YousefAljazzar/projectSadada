@@ -39,7 +39,8 @@ namespace Sadada.Core.Mangers
             {
                 throw new SadadaException("Already Existed");
             }
-
+            custmer.Password = CreateRandomPassword(15);
+            var temp = custmer.Password;
             var hashpassword = HashPassword(custmer.Password);
 
             var newCustmer = _sadaddbContext.Custmers.Add(new Custmer
@@ -58,8 +59,9 @@ namespace Sadada.Core.Mangers
                                     { "Link", $"{newCustmer.ConfirmationLink}" }
                     }, "https://localhost:44309");
 
-            var message = new Message(new string[] { custmer.Email }, builder.GetTitle(), builder.GetBody());
+            var message = new Message(new string[] { custmer.Email }, builder.GetTitle(), builder.GetBody(temp));
             _emailSender.SendEmail(message);
+
             var res = _mapper.Map<RegisterCompleteView>(newCustmer);
 
             res.Token = $"Bearer {GenerateJWTToken(newCustmer)}";

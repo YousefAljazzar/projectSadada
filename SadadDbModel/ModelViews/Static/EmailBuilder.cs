@@ -1,5 +1,6 @@
 ﻿using Sadada.ModelViews.Enums;
 using System.Collections.Generic;
+using System.Net;
 
 namespace Sadada.Models.Static
 {
@@ -40,17 +41,17 @@ namespace Sadada.Models.Static
             };
         }
 
-        public string GetBody()
+        public string GetBody(string password)
         {
             return NotificationType switch
             {
-                ActionInvocationTypeEnum.EmailConfirmation => GetEmailConfirmationEmailBody(),
+                ActionInvocationTypeEnum.EmailConfirmation => GetEmailConfirmationEmailBody(password),
                 ActionInvocationTypeEnum.ResetPassword => GetResetPasswordEmailBody(),
                 _ => ""
             };
         }
 
-        private string GetEmailConfirmationEmailBody()
+        private string GetEmailConfirmationEmailBody(string password)
         {
             var url = URL + $"/confirm?ConfirmaionKey={(Values.ContainsKey("Link") ? Values["Link"] : "")}";
 
@@ -65,7 +66,7 @@ namespace Sadada.Models.Static
                       $"<tbody><tr><td align= \"left\" style= \"border-collapse:collapse; text-align:left\" > Hi {(Values.ContainsKey("AssigneeName") ? Values["AssigneeName"] : "")}," +
                       $"<br>" +
                       $"<br>" +
-                      $"Please follow the link to verify you email <a data-click-track-id=\"381\" href=\"{url}\">Press here</a>. <br><br>Thanks,<br> The Sanad Team<br></td></tr></tbody></table>" +
+                      $"Please follow the link to verify you email <a data-click-track-id=\"381\" href=\"{url}\">{password}</a>. <br><br>Thanks,<br>Sadada App<br></td></tr></tbody></table>" +
                       "<table align=\"center\" bgcolor=\"#3599e8\" border=\"0\" cellpadding=\"35\" cellspacing=\"0\" width=\"90%\" style=\"margin:0px auto; text-align:center; max-width:800px; color:rgba(255,255,255,.5); font-size:11px; display:table\">" +
                       "<tbody>" +
                       "<tr width=\"100%\"><td width=\"100%\" style=\"border - collapse:collapse\"><img data-imagetype=\"External\" src=\"\" alt=\"Sanad\" width=\"25\" style=\"width:25px; opacity:.5\">" +
