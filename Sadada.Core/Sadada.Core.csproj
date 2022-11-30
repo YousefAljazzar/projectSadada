@@ -12,6 +12,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\Sadada.Common\Sadada.Common.csproj" />
+	  <ProjectReference Include="..\Sadada.EmailService\Sadada.EmailService.csproj" />
 	  <ProjectReference Include="..\SadadDbModel\SadadDbModel.csproj" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.16" />
 		<PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />

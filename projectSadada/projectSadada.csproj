@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Sadada.Core\Sadada.Core.csproj" />
+    <ProjectReference Include="..\Sadada.EmailService\Sadada.EmailService.csproj" />
     <ProjectReference Include="..\SadadDbModel\SadadDbModel.csproj" />
   </ItemGroup>
 

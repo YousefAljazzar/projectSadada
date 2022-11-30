@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "projectSadada", "projectSadada\projectSadada.csproj", "{6A562411-595B-41E3-B558-048F6F7851EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "projectSadada", "projectSadada\projectSadada.csproj", "{6A562411-595B-41E3-B558-048F6F7851EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SadadDbModel", "SadadDbModel\SadadDbModel.csproj", "{AF5AA6F4-707F-4963-BB66-BCC4C2D19D31}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SadadDbModel", "SadadDbModel\SadadDbModel.csproj", "{AF5AA6F4-707F-4963-BB66-BCC4C2D19D31}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sadada.Core", "Sadada.Core\Sadada.Core.csproj", "{FA10FDF8-54A3-47F7-891C-1434384CA9C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sadada.Core", "Sadada.Core\Sadada.Core.csproj", "{FA10FDF8-54A3-47F7-891C-1434384CA9C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sadada.Common", "Sadada.Common\Sadada.Common.csproj", "{EDDED74B-5A8A-4A34-89D2-8D82FC4CD1EC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sadada.Common", "Sadada.Common\Sadada.Common.csproj", "{EDDED74B-5A8A-4A34-89D2-8D82FC4CD1EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sadada.EmailService", "Sadada.EmailService\Sadada.EmailService.csproj", "{ABEC16BA-CF7B-4329-BB22-1EF3A784412B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{EDDED74B-5A8A-4A34-89D2-8D82FC4CD1EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EDDED74B-5A8A-4A34-89D2-8D82FC4CD1EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EDDED74B-5A8A-4A34-89D2-8D82FC4CD1EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABEC16BA-CF7B-4329-BB22-1EF3A784412B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABEC16BA-CF7B-4329-BB22-1EF3A784412B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABEC16BA-CF7B-4329-BB22-1EF3A784412B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABEC16BA-CF7B-4329-BB22-1EF3A784412B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

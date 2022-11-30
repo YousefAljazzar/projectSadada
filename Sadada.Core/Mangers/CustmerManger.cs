@@ -2,6 +2,10 @@
 using BCrypt.Net;
 using Microsoft.IdentityModel.Tokens;
 using Sadada.Core.Mangers.MagersInterface;
+using Sadada.Models.Static;
+using Sadada.ModelViews.Enums;
+using Sadadad.EmailService;
+using Sadadad.Notifications;
 using SadadDbModel.dbContext;
 using SadadDbModel.ModelViews;
 using System;
@@ -19,11 +23,14 @@ namespace Sadada.Core.Mangers
     {
         private readonly sadaddbContext _sadaddbContext;
         private IMapper _mapper;
+        private readonly IEmailSender _emailSender;
 
-        public CustmerManger(sadaddbContext sadaddbContext, IMapper mapper)
+
+        public CustmerManger(sadaddbContext sadaddbContext, IMapper mapper,IEmailSender emailSender)
         {
             _sadaddbContext = sadaddbContext;
             _mapper = mapper;
+            _emailSender=emailSender;
         }
 
         public RegisterCompleteView CreateCustmer(CreateCustmerView custmer)
@@ -44,7 +51,15 @@ namespace Sadada.Core.Mangers
             }).Entity;
 
             _sadaddbContext.SaveChanges();
+            var builder = new EmailBuilder(ActionInvocationTypeEnum.EmailConfirmation,
+                    new Dictionary<string, string>
+                    {
+                                    { "AssigneeName", $"{custmer.FirstName} {custmer.LastName}" },
+                                    { "Link", $"{newCustmer.ConfirmationLink}" }
+                    }, "https://localhost:44309");
 
+            var message = new Message(new string[] { custmer.Email }, builder.GetTitle(), builder.GetBody());
+            _emailSender.SendEmail(message);
             var res = _mapper.Map<RegisterCompleteView>(newCustmer);
 
             res.Token = $"Bearer {GenerateJWTToken(newCustmer)}";
@@ -90,6 +105,20 @@ namespace Sadada.Core.Mangers
 
 
         #region private 
+
+
+        private static string CreateRandomPassword(int length = 15)
+        {
+            string validChars = "ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*?_-";
+            Random random = new Random();
+
+            char[] chars = new char[length];
+            for (int i = 0; i < length; i++)
+            {
+                chars[i] = validChars[random.Next(0, validChars.Length)];
+            }
+            return new string(chars);
+        }
 
         private static string HashPassword(string password)
         {

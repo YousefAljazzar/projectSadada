@@ -27,6 +27,8 @@ namespace SadadDbModel.dbContext
         [Timestamp]
         public DateTime UpdateDate { get; set; }
 
+        public string ConfirmationLink { get; set; }
+
         public virtual ICollection<Transaction> Transactions { get; set; }
     }
 }

@@ -55,7 +55,11 @@ namespace SadadDbModel.dbContext
                 entity.Property(e => e.LastName)
                    .IsRequired()
                    .HasMaxLength(255)
-                   .HasColumnName("LastName");
+                   .HasColumnName("LastName"); 
+                entity.Property(e => e.ConfirmationLink)
+                   .IsRequired()
+                   .HasMaxLength(255)
+                   .HasColumnName("ConfirmationLink");
 
                 entity.Property(e => e.Password)
                     .IsRequired()
