@@ -12,7 +12,7 @@ namespace Sadada.Models.Static
             Values = parameterValues;
             URL = url;
         }
-
+        
         public ActionInvocationTypeEnum NotificationType { get; set; }
 
         public Dictionary<string, string> Values { get; set; }
@@ -61,16 +61,16 @@ namespace Sadada.Models.Static
                       "<img data-imagetype=\"External\" src=\"\" width=\"200\" style=\"width:200px\">" +
                       "<br aria-hidden=\"true\"><br aria-hidden=\"true\"><br aria-hidden=\"true\">" +
                       "<span style = \"width:80%; display:block; margin-bottom:40px\">" +
-                      "</br>You has been registered successfully just one more step to finish.</br></span> </td></tr></tbody></table>" +
+                      "</br>Sadada Confirmation!</br></span> </td></tr></tbody></table>" +
                       "<table align = \"center\" bgcolor= \"#ffffff\" border= \"0\" cellpadding= \"35\" cellspacing= \"0\" width= \"90%\" style= \"margin:0px auto; max-width:800px; display:table\" >" +
                       $"<tbody><tr><td align= \"left\" style= \"border-collapse:collapse; text-align:left\" > Hi {(Values.ContainsKey("AssigneeName") ? Values["AssigneeName"] : "")}," +
                       $"<br>" +
                       $"<br>" +
-                      $"Please follow the link to verify you email <a data-click-track-id=\"381\" href=\"{url}\">{password}</a>. <br><br>Thanks,<br>Sadada App<br></td></tr></tbody></table>" +
+                      $"This is your Password:{password}. <br><br>Thanks,<br>Sadada App<br></td></tr></tbody></table>" +
                       "<table align=\"center\" bgcolor=\"#3599e8\" border=\"0\" cellpadding=\"35\" cellspacing=\"0\" width=\"90%\" style=\"margin:0px auto; text-align:center; max-width:800px; color:rgba(255,255,255,.5); font-size:11px; display:table\">" +
                       "<tbody>" +
                       "<tr width=\"100%\"><td width=\"100%\" style=\"border - collapse:collapse\"><img data-imagetype=\"External\" src=\"\" alt=\"Sanad\" width=\"25\" style=\"width:25px; opacity:.5\">" +
-                      "<br aria-hidden=\"true\"><span style=\"color:#fff; color:rgba(255,255,255,.5)\">Jenin Main street</span> | <a href=\"\" target=\"_blank\" rel=\"noopener noreferrer\" data-auth=\"NotApplicable\" style=\"text-decoration:none; color:#fff; color:rgba(255,255,255,.5)\" data-linkindex=\"1\">UnSubscribe</a> </td></tr></tbody>";
+                      "<br aria-hidden=\"true\"><span style=\"color:#fff; color:rgba(255,255,255,.5)\"></span> | <a href=\"\" target=\"_blank\" rel=\"noopener noreferrer\" data-auth=\"NotApplicable\" style=\"text-decoration:none; color:#fff; color:rgba(255,255,255,.5)\" data-linkindex=\"1\"></a> </td></tr></tbody>";
 
             return emailBody;
         }

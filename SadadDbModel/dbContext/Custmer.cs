@@ -29,6 +29,8 @@ namespace SadadDbModel.dbContext
 
         public string ConfirmationLink { get; set; }
 
+        public bool IsConfirmed { get; set; }
+
         public virtual ICollection<Transaction> Transactions { get; set; }
     }
 }

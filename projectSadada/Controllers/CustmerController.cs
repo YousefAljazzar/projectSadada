@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Sadada.Core.Mangers.MagersInterface;
 using SadadDbModel.dbContext;
 using SadadDbModel.ModelViews;
@@ -9,7 +10,7 @@ namespace projectSadada.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CustmerController : ControllerBase
+    public class CustmerController : ApiBaseController
     {
         private ICustmerManger _custmerManger;
 
@@ -35,6 +36,7 @@ namespace projectSadada.Controllers
 
         [Route("GetAllCustmers")]
         [HttpGet]
+        [Authorize]
         public IActionResult GetAllCustmers()
         {
             var res = _custmerManger.GetAllCustmers();
@@ -44,12 +46,49 @@ namespace projectSadada.Controllers
 
         [Route("RegisterDept")]
         [HttpPost]
+
         public IActionResult RegisterDebt(int custmerId,string productName)
         {
             _custmerManger.RegisterDebt(custmerId,productName);
 
             return Ok();
         }
+
+        [Route("LoginInCustmer")]
+        [HttpPost]
+        public IActionResult LoginInCustmer(CustmerLoginModel custmer)
+        {
+            var res = _custmerManger.LogInCustmer(custmer);
+
+            return Ok(res);
+        }
+
+        [Route("ForgetPassword")]
+        [HttpPost]
+        public IActionResult ForgetPassword(string email)
+        {
+            var custmer=_custmerManger.ForgetPassword(email);
+
+            return Ok(custmer);
+
+        }
+        [Route("ConfiremPassword")]
+        [HttpPost]
+        public IActionResult ConfiremPassword(string confirmation)
+        {
+            var res = _custmerManger.ConfiremPassword(confirmation);
+
+            return Ok(res);
+        }
+        [Route("ResetPassword")]
+        [HttpPost]
+        public IActionResult ResetPassword(ResetPasswordView reset)
+        {
+            var res = _custmerManger.ResetPassword(ForgetpasswordUser, reset);
+
+            return Ok(res);
+        }
+
 
     }
 }

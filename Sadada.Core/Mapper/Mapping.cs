@@ -9,6 +9,9 @@ namespace Sadada.Core.Mapper
         public Mapping()
         {
             CreateMap<Custmer, RegisterCompleteView>().ReverseMap();
+            CreateMap<Custmer,LoginReponseView>().ReverseMap();    
+            CreateMap<Custmer,CustmerModel>().ReverseMap();    
+            CreateMap<Custmer,ForgetCustmerView>().ReverseMap();    
 
         }
     }

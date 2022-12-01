@@ -59,7 +59,9 @@ namespace SadadDbModel.dbContext
                 entity.Property(e => e.ConfirmationLink)
                    .IsRequired()
                    .HasMaxLength(255)
-                   .HasColumnName("ConfirmationLink");
+                   .HasColumnName("ConfirmationLink")
+                   .HasDefaultValue("''");
+                    
 
                 entity.Property(e => e.Password)
                     .IsRequired()
@@ -73,6 +75,11 @@ namespace SadadDbModel.dbContext
                 entity.Property(e => e.UpdateDate)
                       .HasColumnType("datetime")
                       .HasDefaultValueSql("(getdate())");
+
+
+                entity.Property(e => e.IsConfirmed)
+                    .HasColumnType("tinyint")
+                    .HasDefaultValueSql("'0'");
 
                 entity.Property(e => e.TotalDept)
                 .HasMaxLength(255)

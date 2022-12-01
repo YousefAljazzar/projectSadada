@@ -96,6 +96,9 @@ namespace projectSadada
             }));
             services.AddScoped<IEmailSender, EmailSender>();
             services.AddScoped<ICustmerManger, CustmerManger>();
+            services.AddScoped<ICommonManger, CommonManger>();
+            services.AddScoped<IRoleManger, RoleManger>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -113,6 +116,9 @@ namespace projectSadada
             app.UseRouting();
 
             app.UseCors("sadadPolciy");
+
+            app.UseAuthentication();
+
 
             app.UseAuthorization();
 

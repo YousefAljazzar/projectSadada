@@ -39,7 +39,7 @@ namespace Sadada.Core.Mangers
             {
                 throw new SadadaException("Already Existed");
             }
-            custmer.Password = CreateRandomPassword(15);
+            custmer.Password = CreateRandomPassword(9);
             var temp = custmer.Password;
             var hashpassword = HashPassword(custmer.Password);
 
@@ -49,7 +49,8 @@ namespace Sadada.Core.Mangers
                 LastName=custmer.LastName,
                 Email=custmer.Email,
                 Password=hashpassword,
-            }).Entity;
+                ConfirmationLink = ""
+             }).Entity;
 
             _sadaddbContext.SaveChanges();
             var builder = new EmailBuilder(ActionInvocationTypeEnum.EmailConfirmation,
@@ -68,6 +69,22 @@ namespace Sadada.Core.Mangers
 
             return res;
 
+        }
+
+        public LoginReponseView LogInCustmer(CustmerLoginModel custmer)
+        {
+            var custmerdb = _sadaddbContext.Custmers
+                                 .FirstOrDefault(a => a.Email
+                                                         .Equals(custmer.Email));
+
+            if (custmerdb == null || !VerifyHashPassword(custmer.Password, custmerdb.Password))
+            {
+                throw new ServiceValidationException(300, "Invalid user name or password received");
+            }
+
+            var res = _mapper.Map<LoginReponseView>(custmerdb);
+            res.Token = $"Bearer {GenerateJWTToken(custmerdb)}";
+            return res;
         }
 
 
@@ -99,9 +116,63 @@ namespace Sadada.Core.Mangers
             custmer.TotalDept = custmer.TotalDept + product.Price;
             _sadaddbContext.Custmers.Update(custmer);
             _sadaddbContext.SaveChanges();
-
         }
 
+        public ForgetCustmerView ForgetPassword(string email)
+        {
+            var custmer = _sadaddbContext.Custmers.FirstOrDefault(a => a.Email.Equals(email))
+                                                    ?? throw new SadadaException("Not Found");
+
+            custmer.ConfirmationLink = Guid.NewGuid().ToString().Replace("-", "").ToString();
+            custmer.IsConfirmed = false;
+
+            var builder = new EmailBuilder(ActionInvocationTypeEnum.ResetPassword,
+             new Dictionary<string, string>
+             {
+                                    { "AssigneeName", $"{custmer.FirstName} {custmer.LastName}" },
+                                    { "Link", $"{custmer.ConfirmationLink}" }
+             }, "https://localhost:44309");
+
+            var message = new Message(new string[] { custmer.Email }, builder.GetTitle(), builder.GetBody(""));
+            _emailSender.SendEmail(message);
+           
+            var mapped = _mapper.Map<ForgetCustmerView>(custmer);
+            mapped.Token = $"Bearer {GenerateJWTToken(custmer)}";
+            _sadaddbContext.SaveChanges();
+            return mapped;
+        }
+
+        public CustmerModel ConfiremPassword(string confirmation)
+        {
+            var user = _sadaddbContext.Custmers
+               .FirstOrDefault(a => a.ConfirmationLink
+                                        .Equals(confirmation)
+                                         && !a.IsConfirmed)
+           ?? throw new ServiceValidationException("Invalid or expired confirmation link received");
+
+            user.IsConfirmed = true;
+            user.ConfirmationLink = string.Empty;
+            _sadaddbContext.SaveChanges();
+            return _mapper.Map<CustmerModel>(user);
+        }
+
+        public CustmerModel ResetPassword(CustmerModel forgetenCustemr,ResetPasswordView passwordView)
+        {
+            var custmer=_sadaddbContext.Custmers.FirstOrDefault(a=>a.Id == forgetenCustemr.Id)
+                                                 ??throw new SadadaException("Not found");
+            if (!custmer.IsConfirmed)
+            {
+                throw new SadadaException("Not Confirmed");
+            }
+            if (passwordView.NewPassword == passwordView.ConfirmPassword)
+            {
+                custmer.Password=HashPassword(passwordView.ConfirmPassword);
+                _sadaddbContext.Update(custmer);
+                _sadaddbContext.SaveChanges();
+            }
+            return _mapper.Map<CustmerModel>(custmer);
+            
+        }
 
 
 
@@ -146,6 +217,7 @@ namespace Sadada.Core.Mangers
                 new Claim(JwtRegisteredClaimNames.Email, Custmer.Email),
                 new Claim("Id", Custmer.Id.ToString()),
                 new Claim("FirstName", Custmer.FirstName),
+                new Claim("Email", Custmer.Email),
                 new Claim("DateOfJoining", Custmer.CreatedDate.ToString("yyyy-MM-dd")),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };

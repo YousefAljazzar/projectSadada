@@ -15,5 +15,13 @@ namespace Sadada.Core.Mangers.MagersInterface
         public List<GetCustmersView> GetAllCustmers();
 
         public void RegisterDebt( int custmerId, string productName);
+
+        public LoginReponseView LogInCustmer(CustmerLoginModel custmer);
+
+        public ForgetCustmerView ForgetPassword(string email);
+
+        public CustmerModel ConfiremPassword(string confirmation);
+
+        public CustmerModel ResetPassword(CustmerModel forgetenCustemr, ResetPasswordView passwordView);
     }
 }
