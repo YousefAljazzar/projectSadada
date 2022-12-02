@@ -16,6 +16,8 @@ using SadadDbModel.dbContext;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Serilog;
+using ExceptionsMid.Extenstions;
 
 namespace projectSadada
 {
@@ -94,6 +96,7 @@ namespace projectSadada
                        .AllowAnyHeader()
                        .AllowCredentials();
             }));
+            services.AddLogging();
             services.AddScoped<IEmailSender, EmailSender>();
             services.AddScoped<ICustmerManger, CustmerManger>();
             services.AddScoped<ICommonManger, CommonManger>();
@@ -110,6 +113,12 @@ namespace projectSadada
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "projectSadada v1"));
             }
+
+            Log.Logger = new LoggerConfiguration()
+              .WriteTo.File("Logs/log.txt", rollingInterval: RollingInterval.Minute)
+              .CreateLogger();
+
+            app.ConfigureExceptionHandler(Log.Logger, env);
 
             app.UseHttpsRedirection();
 

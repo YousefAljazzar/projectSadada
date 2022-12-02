@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Tazeez.Common.Logging
+namespace Sadada.Common.Logging
 {
     public class ErrorDetails
     {

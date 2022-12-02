@@ -1,7 +1,7 @@
 ﻿using Serilog.Events;
 using System;
 
-namespace Tazeez.Common.Logging
+namespace Sadada.Common.Logging
 {
     public class LogMessage
     {

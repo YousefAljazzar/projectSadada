@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ToDoList.Common.Extensions
+namespace Sadada.Common.Extensions
 {
     public class ServiceValidationException : SadadaException
     {        
