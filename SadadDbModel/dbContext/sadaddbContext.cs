@@ -61,7 +61,7 @@ namespace SadadDbModel.dbContext
                    .HasMaxLength(255)
                    .HasColumnName("ConfirmationLink")
                    .HasDefaultValue("''");
-                    
+
 
                 entity.Property(e => e.Password)
                     .IsRequired()

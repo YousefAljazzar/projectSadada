@@ -128,7 +128,6 @@ namespace projectSadada
 
             app.UseAuthentication();
 
-
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

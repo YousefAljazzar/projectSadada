@@ -31,6 +31,8 @@ namespace SadadDbModel.dbContext
 
         public bool IsConfirmed { get; set; }
 
+
+
         public virtual ICollection<Transaction> Transactions { get; set; }
     }
 }
