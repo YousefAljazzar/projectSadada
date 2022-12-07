@@ -15,7 +15,8 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using Sadada.Common.Extensions;
-
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Threading.Tasks;
 
 namespace Sadada.Core.Mangers
 {
@@ -26,16 +27,16 @@ namespace Sadada.Core.Mangers
         private readonly IEmailSender _emailSender;
 
 
-        public CustmerManger(sadaddbContext sadaddbContext, IMapper mapper,IEmailSender emailSender)
+        public CustmerManger(sadaddbContext sadaddbContext, IMapper mapper, IEmailSender emailSender)
         {
             _sadaddbContext = sadaddbContext;
             _mapper = mapper;
-            _emailSender=emailSender;
+            _emailSender = emailSender;
         }
 
         public RegisterCompleteView CreateCustmer(CreateCustmerView custmer)
         {
-            if (_sadaddbContext.Custmers.Any(s => s.Email.Equals(custmer.Email)&&s.FirstName.Equals(custmer.FirstName)))
+            if (_sadaddbContext.Custmers.Any(s => s.Email.Equals(custmer.Email) && s.FirstName.Equals(custmer.FirstName)))
             {
                 throw new SadadaException("Already Existed");
             }
@@ -45,12 +46,12 @@ namespace Sadada.Core.Mangers
 
             var newCustmer = _sadaddbContext.Custmers.Add(new Custmer
             {
-                FirstName=custmer.FirstName,
-                LastName=custmer.LastName,
-                Email=custmer.Email,
-                Password=hashpassword,
+                FirstName = custmer.FirstName,
+                LastName = custmer.LastName,
+                Email = custmer.Email,
+                Password = hashpassword,
                 ConfirmationLink = String.Empty
-             }).Entity;
+            }).Entity;
 
             _sadaddbContext.SaveChanges();
             var builder = new EmailBuilder(ActionInvocationTypeEnum.EmailConfirmation,
@@ -89,34 +90,74 @@ namespace Sadada.Core.Mangers
 
         public List<GetCustmersView> GetAllCustmers()
         {
-            var custmersList = _sadaddbContext.Custmers.Select(a=>new GetCustmersView
+            var custmersList = _sadaddbContext.Custmers.Select(a => new GetCustmersView
             {
-                FullName=$"{a.FirstName} {a.LastName}",
-                TotalDept=a.TotalDept
+                FullName = $"{a.FirstName} {a.LastName}",
+                TotalDept = a.TotalDept
             }).ToList();
 
             return custmersList;
         }
 
-        public void RegisterDebt(int custmerId,string productName)
+        public PaginationView GetAllCustmersWithPagination(int page = 1, int pageSize = 10, string sortColumn = "", string sortDirection = "ascending", string searchText = "")
         {
-            var custmer=_sadaddbContext.Custmers.FirstOrDefault(a=>a.Id==custmerId)
-                                                ??throw new SadadaException("Not Found");
+            var queryRes = _sadaddbContext.Custmers
+                                        .Where(a => string.IsNullOrWhiteSpace(searchText)
+                                                    || (a.FirstName.Contains(searchText)
+                                                        || a.LastName.Contains(searchText)));
 
-            var product = _sadaddbContext.Products.FirstOrDefault(a => a.Name.Equals(productName));
+            if (!string.IsNullOrWhiteSpace(sortColumn) && sortDirection.Equals("ascending", StringComparison.InvariantCultureIgnoreCase))
+            {
+                queryRes = queryRes.OrderBy(sortColumn);
+            }
+            else if (!string.IsNullOrWhiteSpace(sortColumn) && sortDirection.Equals("descending", StringComparison.InvariantCultureIgnoreCase))
+            {
+                queryRes = queryRes.OrderByDescending(sortColumn);
+            }
+
+            var res = queryRes.GetPaged(page, pageSize);
+
+            var todoIds = res.Data
+                             .Select(a => a.Id)
+                             .Distinct()
+                             .ToList();
+
+            var todos = _sadaddbContext.Transactions.ToDictionary(a => a.Id, x => _mapper.Map<TransactionModelView>(x));
+
+            var data = new PaginationView()
+            {
+                Custmer = _mapper.Map<PagedResult<CustmerModel>>(res),
+                Transactions = todos
+            };
+
+            data.Custmer.Sortable.Add("Email", "Email");
+            data.Custmer.Sortable.Add("CreatedDate", "Created Date");
+
+            return data;
+        }
+
+
+        public void RegisterDebt(AddDeptToCustmerView deptCustmer)
+        {
+            var custmer = _sadaddbContext.Custmers.FirstOrDefault(a => a.FirstName == deptCustmer.FirstName && a.LastName == deptCustmer.LastName)
+                                                ?? throw new SadadaException(300, "Not Found");
+
+            var product = _sadaddbContext.Products.FirstOrDefault(a => a.Name.Equals(deptCustmer.Product));
 
             var trans = _sadaddbContext.Transactions.Add(new Transaction
             {
-                ProductId=product.Id,
-                UserId=custmer.Id
+                ProductId = product.Id,
+                UserId = custmer.Id,
+                Quantity = deptCustmer.Quantity
             }).Entity;
 
-            custmer.TotalDept = custmer.TotalDept + product.Price;
+            custmer.TotalDept = custmer.TotalDept + (product.Price*deptCustmer.Quantity);
             _sadaddbContext.Custmers.Update(custmer);
             _sadaddbContext.SaveChanges();
+
         }
 
-        public ForgetCustmerView ForgetPassword(string email)
+        public async Task<ForgetCustmerView> ForgetPassword(string email)
         {
             var custmer = _sadaddbContext.Custmers.FirstOrDefault(a => a.Email.Equals(email))
                                                     ?? throw new SadadaException("Not Found");
@@ -129,47 +170,49 @@ namespace Sadada.Core.Mangers
              {
                                     { "AssigneeName", $"{custmer.FirstName} {custmer.LastName}" },
                                     { "Link", $"{custmer.ConfirmationLink}" }
-             }, "https://localhost:44309");
+             }, "https://localhost:44375/Custmer/ConfiremPassword");
 
             var message = new Message(new string[] { custmer.Email }, builder.GetTitle(), builder.GetBody(""));
             _emailSender.SendEmail(message);
-           
             var mapped = _mapper.Map<ForgetCustmerView>(custmer);
             mapped.Token = $"Bearer {GenerateJWTToken(custmer)}";
+            _sadaddbContext.Update(custmer);
             _sadaddbContext.SaveChanges();
+            await ConfiremPassword(builder.URL);
             return mapped;
         }
 
-        public CustmerModel ConfiremPassword(string confirmation)
+        public Task<CustmerModel> ConfiremPassword(string confirmation)
         {
+            string s = confirmation.Substring(confirmation.IndexOf('='));
             var user = _sadaddbContext.Custmers
                .FirstOrDefault(a => a.ConfirmationLink
-                                        .Equals(confirmation)
+                                        .Equals(s)
                                          && !a.IsConfirmed)
            ?? throw new ServiceValidationException("Invalid or expired confirmation link received");
 
             user.IsConfirmed = true;
             user.ConfirmationLink = string.Empty;
             _sadaddbContext.SaveChanges();
-            return _mapper.Map<CustmerModel>(user);
+            return _mapper.Map<Task<CustmerModel>>(user);
         }
 
-        public CustmerModel ResetPassword(CustmerModel forgetenCustemr,ResetPasswordView passwordView)
+        public CustmerModel ResetPassword(CustmerModel forgetenCustemr, ResetPasswordView passwordView)
         {
-            var custmer=_sadaddbContext.Custmers.FirstOrDefault(a=>a.Id == forgetenCustemr.Id)
-                                                 ??throw new SadadaException("Not found");
+            var custmer = _sadaddbContext.Custmers.FirstOrDefault(a => a.Id == forgetenCustemr.Id)
+                                                 ?? throw new SadadaException("Not found");
             if (!custmer.IsConfirmed)
             {
                 throw new SadadaException("Not Confirmed");
             }
             if (passwordView.NewPassword == passwordView.ConfirmPassword)
             {
-                custmer.Password=HashPassword(passwordView.ConfirmPassword);
+                custmer.Password = HashPassword(passwordView.ConfirmPassword);
                 _sadaddbContext.Update(custmer);
                 _sadaddbContext.SaveChanges();
             }
             return _mapper.Map<CustmerModel>(custmer);
-            
+
         }
 
 
@@ -193,7 +236,7 @@ namespace Sadada.Core.Mangers
 
         private static string HashPassword(string password)
         {
-            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(password);   
+            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
 
             return hashedPassword;
         }
@@ -232,7 +275,7 @@ namespace Sadada.Core.Mangers
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-     
+
 
         #endregion private 
     }

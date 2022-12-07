@@ -109,7 +109,7 @@ namespace SadadDbModel.dbContext
 
                 entity.HasIndex(e => e.ProductId, "ProductID_idx");
 
-                entity.Property(e => e.Coantity).HasColumnName("coantity");
+                entity.Property(e => e.Quantity).HasColumnName("coantity");
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.Transactions)

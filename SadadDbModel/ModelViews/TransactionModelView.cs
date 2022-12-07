@@ -1,17 +1,19 @@
-﻿using System;
+﻿using SadadDbModel.dbContext;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-#nullable disable
-
-namespace SadadDbModel.dbContext
+namespace SadadDbModel.ModelViews
 {
-    public partial class Transaction
+    public class TransactionModelView
     {
         public int Id { get; set; }
         public int UserId { get; set; }
         public int ProductId { get; set; }
-        public int Quantity { get; set; }
+        public int Coantity { get; set; }
 
         [Timestamp]
         public DateTime CreatedDate { get; set; }
@@ -19,7 +21,5 @@ namespace SadadDbModel.dbContext
 
         public DateTime UpdateDate { get; set; }
 
-        public virtual Product Product { get; set; }
-        public virtual Custmer User { get; set; }
     }
 }

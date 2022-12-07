@@ -15,4 +15,9 @@
 
 	</ItemGroup>
 
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Sadada.Common\Sadada.Common.csproj" />
+	</ItemGroup>
+
 </Project>

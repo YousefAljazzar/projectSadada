@@ -43,15 +43,23 @@ namespace projectSadada.Controllers
 
             return Ok(res);
         }
+        [Route("GetAllCustmersWithPagination")]
+        [HttpGet]
+        public IActionResult GetAllCustmersWithPagination(int page, int pagesize, string sortColum, string dircation, string serach)
+        {
+            var res = _custmerManger.GetAllCustmersWithPagination(page, pagesize, sortColum, dircation, serach);
+
+            return Ok(res);
+        }
 
         [Route("RegisterDept")]
         [HttpPost]
 
-        public IActionResult RegisterDebt(int custmerId,string productName)
+        public IActionResult RegisterDebt(AddDeptToCustmerView deptCustmer)
         {
-            _custmerManger.RegisterDebt(custmerId,productName);
+            _custmerManger.RegisterDebt(deptCustmer);
 
-            return Ok();
+            return Ok("Add Succseflly");
         }
 
         [Route("LoginInCustmer")]
@@ -67,7 +75,7 @@ namespace projectSadada.Controllers
         [HttpPost]
         public IActionResult ForgetPassword(string email)
         {
-            var custmer=_custmerManger.ForgetPassword(email);
+            var custmer = _custmerManger.ForgetPassword(email);
 
             return Ok(custmer);
 
