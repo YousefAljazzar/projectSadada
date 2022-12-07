@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Sadada.Core.Mangers.MagersInterface;
 using SadadDbModel.dbContext;
@@ -14,9 +15,12 @@ namespace projectSadada.Controllers
     {
         private ICustmerManger _custmerManger;
 
-        public CustmerController(ICustmerManger custmerManger)
+        private IHttpContextAccessor httpContextAccessor;
+
+        public CustmerController(ICustmerManger custmerManger, IHttpContextAccessor httpContextAccessor)
         {
             _custmerManger = custmerManger;
+            this.httpContextAccessor = httpContextAccessor;
         }
 
 
@@ -65,18 +69,20 @@ namespace projectSadada.Controllers
 
         [Route("ForgetPassword")]
         [HttpPost]
-        public IActionResult ForgetPassword(string email)
+        public IActionResult ForgetPassword(ForgetPasswordModel payload)
         {
-            var custmer=_custmerManger.ForgetPassword(email);
+            var result = this.httpContextAccessor;
+            var keyValue = result.HttpContext.Request.Headers["User-Agent"].ToString();
+            var custmer=_custmerManger.ForgetPassword(payload.Email);
 
             return Ok(custmer);
 
         }
         [Route("ConfiremPassword")]
         [HttpPost]
-        public IActionResult ConfiremPassword(string confirmation)
+        public IActionResult ConfiremPassword(ConfirmCodeModel payload)
         {
-            var res = _custmerManger.ConfiremPassword(confirmation);
+            var res = _custmerManger.ConfiremPassword(payload.Code);
 
             return Ok(res);
         }
@@ -88,6 +94,8 @@ namespace projectSadada.Controllers
 
             return Ok(res);
         }
+
+        
 
 
     }

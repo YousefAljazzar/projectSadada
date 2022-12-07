@@ -58,7 +58,7 @@ namespace Sadada.Core.Mangers
                     {
                                     { "AssigneeName", $"{custmer.FirstName} {custmer.LastName}" },
                                     { "Link", $"{newCustmer.ConfirmationLink}" }
-                    }, "https://localhost:44309");
+                    }, "http://127.0.0.1:5500/reset.html");
 
             var message = new Message(new string[] { custmer.Email }, builder.GetTitle(), builder.GetBody(password));
             _emailSender.SendEmail(message);
@@ -129,7 +129,7 @@ namespace Sadada.Core.Mangers
              {
                                     { "AssigneeName", $"{custmer.FirstName} {custmer.LastName}" },
                                     { "Link", $"{custmer.ConfirmationLink}" }
-             }, "https://localhost:44309");
+             }, "here put the link ");
 
             var message = new Message(new string[] { custmer.Email }, builder.GetTitle(), builder.GetBody(""));
             _emailSender.SendEmail(message);

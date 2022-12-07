@@ -18,6 +18,8 @@ using System.Collections.Generic;
 using System.Text;
 using Serilog;
 using ExceptionsMid.Extenstions;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace projectSadada
 {
@@ -38,6 +40,7 @@ namespace projectSadada
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddControllers();
             services.AddDbContext<sadaddbContext>();
