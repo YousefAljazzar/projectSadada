@@ -18,8 +18,8 @@ namespace Sadada.Core.Mangers.MagersInterface
 
         public LoginReponseView LogInCustmer(CustmerLoginModel custmer);
 
-        public Task<ForgetCustmerView> ForgetPassword(string email);
-        public Task<CustmerModel> ConfiremPassword(string confirmation);
+        public ForgetCustmerView ForgetPassword(string email);
+        public CustmerModel ConfiremPassword(string confirmation);
 
         public CustmerModel ResetPassword(CustmerModel forgetenCustemr, ResetPasswordView passwordView);
 

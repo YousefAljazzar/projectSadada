@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace projectSadada.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class CustmerController : ApiBaseController
     {
@@ -81,7 +81,7 @@ namespace projectSadada.Controllers
 
         }
         [Route("ConfiremPassword")]
-        [HttpPost]
+        [HttpGet]
         public IActionResult ConfiremPassword(string confirmation)
         {
             var res = _custmerManger.ConfiremPassword(confirmation);

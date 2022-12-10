@@ -77,7 +77,7 @@ namespace Sadada.Models.Static
 
         private string GetResetPasswordEmailBody()
         {
-            var url = URL + $"/reset?resetkey={(Values.ContainsKey("Link") ? Values["Link"] : "")}";
+            var url = URL + $"?confirmation={(Values.ContainsKey("Link") ? Values["Link"] : "")}";
 
             var emailBody = "<div width = \"100% !important\" style=\"background:#fff; width:100%!important; margin:0; padding:0; font-family:'Roboto',Helvetica,sans-serif; color:rgb(70,72,74,.9); font-size:15px; line-height:1.5em\">" +
                         "<table align = \"center\" bgcolor=\"#e1f1fd\" border=\"0\" cellpadding=\"35\" cellspacing=\"0\" width=\"90%\" style=\"margin:0px auto; max-width:800px; display:table\">" +
@@ -96,8 +96,11 @@ namespace Sadada.Models.Static
                         "<tr width=\"100%\"><td width=\"100%\" style=\"border - collapse:collapse\"><img data-imagetype=\"External\" src=\"\" alt=\"Sanad\" width=\"25\" style=\"width:25px; opacity:.5\">" +
                         "<br aria-hidden=\"true\"><span style=\"color:#fff; color:rgba(255,255,255,.5)\">Jenin Main street</span> | " +
                         "<a href=\"\" target=\"_blank\" rel=\"noopener noreferrer\" data-auth=\"NotApplicable\" style=\"text-decoration:none; color:#fff; color:rgba(255,255,255,.5)\" data-linkindex=\"1\">Unsubscripted</a> </td></tr></tbody>";
-
-            return emailBody;
+            
+            var x = "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n  <style>\r\n    /* Add your CSS styles here */\r\n    body {\r\n      font-family: sans-serif;\r\n      color: #333;\r\n    }\r\n    .confirmation-message {\r\n      background-color: #eee;\r\n      padding: 20px;\r\n      border: 1px solid #ccc;\r\n      border-radius: 5px;\r\n    }\r\n    .confirmation-message h1 {\r\n      font-size: 24px;\r\n      margin: 0 0 10px 0;\r\n    }\r\n    .confirmation-message p {\r\n      margin: 0;\r\n      padding: 0;\r\n    }\r\n  </style>\r\n</head>\r\n<body>\r\n  <div class=\"confirmation-message\">\r\n    <h1>Confirmation Email</h1>\r\n    <p>Dear User,</p>\r\n    <p>Thank you for signing up for our service. Please click the following link to confirm your email address:</p>" +
+                $"\r\n    <p><a href=\"{url}\">Click Here</a></p>\r\n    <p>Best regards,</p>\r\n    <p>The Your-Site Team</p>\r\n  </div>\r\n</body>\r\n</html>";
+           
+            return x;
         }
     }
 }

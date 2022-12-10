@@ -157,7 +157,7 @@ namespace Sadada.Core.Mangers
 
         }
 
-        public async Task<ForgetCustmerView> ForgetPassword(string email)
+        public  ForgetCustmerView ForgetPassword(string email)
         {
             var custmer = _sadaddbContext.Custmers.FirstOrDefault(a => a.Email.Equals(email))
                                                     ?? throw new SadadaException("Not Found");
@@ -170,7 +170,7 @@ namespace Sadada.Core.Mangers
              {
                                     { "AssigneeName", $"{custmer.FirstName} {custmer.LastName}" },
                                     { "Link", $"{custmer.ConfirmationLink}" }
-             }, "https://localhost:44375/Custmer/ConfiremPassword");
+             }, "https://localhost:5001/Custmer/ConfiremPassword");
 
             var message = new Message(new string[] { custmer.Email }, builder.GetTitle(), builder.GetBody(""));
             _emailSender.SendEmail(message);
@@ -178,23 +178,21 @@ namespace Sadada.Core.Mangers
             mapped.Token = $"Bearer {GenerateJWTToken(custmer)}";
             _sadaddbContext.Update(custmer);
             _sadaddbContext.SaveChanges();
-            await ConfiremPassword(builder.URL);
             return mapped;
         }
 
-        public Task<CustmerModel> ConfiremPassword(string confirmation)
+        public CustmerModel ConfiremPassword(string confirmation)
         {
-            string s = confirmation.Substring(confirmation.IndexOf('='));
             var user = _sadaddbContext.Custmers
                .FirstOrDefault(a => a.ConfirmationLink
-                                        .Equals(s)
+                                        .Equals(confirmation)
                                          && !a.IsConfirmed)
            ?? throw new ServiceValidationException("Invalid or expired confirmation link received");
 
             user.IsConfirmed = true;
             user.ConfirmationLink = string.Empty;
             _sadaddbContext.SaveChanges();
-            return _mapper.Map<Task<CustmerModel>>(user);
+            return _mapper.Map<CustmerModel>(user);
         }
 
         public CustmerModel ResetPassword(CustmerModel forgetenCustemr, ResetPasswordView passwordView)

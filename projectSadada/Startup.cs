@@ -18,6 +18,8 @@ using System.Collections.Generic;
 using System.Text;
 using Serilog;
 using ExceptionsMid.Extenstions;
+using Microsoft.AspNetCore.Mvc;
+using System.Text.Json.Serialization;
 
 namespace projectSadada
 {
@@ -28,7 +30,8 @@ namespace projectSadada
         {
             Configuration = configuration;
 
-            _mapperConfiguration = new MapperConfiguration(a => {
+            _mapperConfiguration = new MapperConfiguration(a =>
+            {
                 a.AddProfile(new Mapping());
             });
         }
@@ -39,7 +42,9 @@ namespace projectSadada
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers();
+            // services.AddControllers();
+            services.AddControllers().AddJsonOptions(x =>
+                                                       x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
             services.AddDbContext<sadaddbContext>();
             services.AddSingleton(sp => _mapperConfiguration.CreateMapper());
             services.AddSwaggerGen(c =>
@@ -132,8 +137,14 @@ namespace projectSadada
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+            /*  app.UseEndpoints(endpoints =>
+               {
+                   endpoints.MapControllers();
+               });*/
         }
     }
 }
