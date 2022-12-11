@@ -21,7 +21,7 @@ namespace Sadada.Core.Mangers.MagersInterface
         public ForgetCustmerView ForgetPassword(FrogetPasswordModel paylod);
         public CustmerModel ConfiremPassword(ConfirmModel paylod);
 
-        public CustmerModel ResetPassword(CustmerModel forgetenCustemr, ResetPasswordView passwordView);
+        public CustmerModel ResetPassword(ResetPasswordView passwordView);
 
         public PaginationView GetAllCustmersWithPagination(int page = 1, int pageSize = 10, string sortColumn = "", string sortDirection = "ascending", string searchText = "");
     }

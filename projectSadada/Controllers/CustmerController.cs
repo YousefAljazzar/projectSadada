@@ -81,7 +81,7 @@ namespace projectSadada.Controllers
 
         }
         [Route("ConfiremPassword")]
-        [HttpGet]
+        [HttpPost]
         public IActionResult ConfiremPassword(ConfirmModel paylod)
         {
             var res = _custmerManger.ConfiremPassword(paylod);
@@ -92,7 +92,7 @@ namespace projectSadada.Controllers
         [HttpPost]
         public IActionResult ResetPassword(ResetPasswordView reset)
         {
-            var res = _custmerManger.ResetPassword(ForgetpasswordUser, reset);
+            var res = _custmerManger.ResetPassword(reset);
 
             return Ok(res);
         }

@@ -8,6 +8,7 @@ namespace SadadDbModel.ModelViews
 {
     public class ResetPasswordView
     {
+        public string Email { get; set; }
         public string NewPassword { get; set; }
 
         public string ConfirmPassword { get; set; }

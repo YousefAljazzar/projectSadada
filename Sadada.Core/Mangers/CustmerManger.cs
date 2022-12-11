@@ -197,9 +197,9 @@ namespace Sadada.Core.Mangers
             return _mapper.Map<CustmerModel>(user);
         }
 
-        public CustmerModel ResetPassword(CustmerModel forgetenCustemr, ResetPasswordView passwordView)
+        public CustmerModel ResetPassword(ResetPasswordView passwordView)
         {
-            var custmer = _sadaddbContext.Custmers.FirstOrDefault(a => a.Id == forgetenCustemr.Id)
+            var custmer = _sadaddbContext.Custmers.FirstOrDefault(a => a.Email == passwordView.Email)
                                                  ?? throw new SadadaException("Not found");
             if (!custmer.IsConfirmed)
             {
