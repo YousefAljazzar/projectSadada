@@ -164,7 +164,7 @@ namespace Sadada.Core.Mangers
             var custmer = _sadaddbContext.Custmers.Find(Id)
                                                   ?? throw new SadadaException("Not Avalibale");
 
-            var custmerTransiction = _sadaddbContext.Transactions.Select(a => new CustmerDetilesModel
+            var custmerTransiction = _sadaddbContext.Transactions.Where(a => a.UserId == Id).Select(a => new CustmerDetilesModel
             {
                 ProductName = a.Product.Name,
                 ProductPrice = a.Product.Price,
