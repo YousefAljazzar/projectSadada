@@ -28,15 +28,16 @@ namespace projectSadada.Controllers
             return Ok(res);
         }
 
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("GetCustmerDetilesByID")]
+        public IActionResult GetCustmerDetilesByID(int Id)
         {
-            return "value";
+            var res=_custmerManger.GetCustmerDetilesByID(Id);
+
+            return Ok(res);
         }
 
         [Route("GetAllCustmers")]
         [HttpGet]
-        [Authorize]
         public IActionResult GetAllCustmers()
         {
             var res = _custmerManger.GetAllCustmers();

@@ -158,6 +158,23 @@ namespace Sadada.Core.Mangers
 
         }
 
+
+        public List<CustmerDetilesModel> GetCustmerDetilesByID(int Id)
+        {
+            var custmer = _sadaddbContext.Custmers.Find(Id)
+                                                  ?? throw new SadadaException("Not Avalibale");
+
+            var custmerTransiction = _sadaddbContext.Transactions.Select(a => new CustmerDetilesModel
+            {
+                ProductName = a.Product.Name,
+                ProductPrice = a.Product.Price,
+                CreatedDate = a.CreatedDate
+            }).ToList();
+
+            return custmerTransiction;
+        }
+
+
         public ForgetCustmerView ForgetPassword(FrogetPasswordModel payload)
         {
             var custmer = _sadaddbContext.Custmers.FirstOrDefault(a => a.Email.Equals(payload.Email))

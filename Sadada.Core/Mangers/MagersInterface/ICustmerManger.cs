@@ -18,7 +18,10 @@ namespace Sadada.Core.Mangers.MagersInterface
 
         public LoginReponseView LogInCustmer(CustmerLoginModel custmer);
 
+        public List<CustmerDetilesModel> GetCustmerDetilesByID(int Id);
+
         public ForgetCustmerView ForgetPassword(FrogetPasswordModel paylod);
+        
         public CustmerModel ConfiremPassword(ConfirmModel paylod);
 
         public CustmerModel ResetPassword(ResetPasswordView passwordView);
