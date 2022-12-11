@@ -92,6 +92,7 @@ namespace Sadada.Core.Mangers
         {
             var custmersList = _sadaddbContext.Custmers.Select(a => new GetCustmersView
             {
+                Id = a.Id,
                 FullName = $"{a.FirstName} {a.LastName}",
                 TotalDept = a.TotalDept
             }).ToList();
@@ -151,15 +152,15 @@ namespace Sadada.Core.Mangers
                 Quantity = deptCustmer.Quantity
             }).Entity;
 
-            custmer.TotalDept = custmer.TotalDept + (product.Price*deptCustmer.Quantity);
+            custmer.TotalDept = custmer.TotalDept + (product.Price * deptCustmer.Quantity);
             _sadaddbContext.Custmers.Update(custmer);
             _sadaddbContext.SaveChanges();
 
         }
 
-        public  ForgetCustmerView ForgetPassword(string email)
+        public ForgetCustmerView ForgetPassword(FrogetPasswordModel payload)
         {
-            var custmer = _sadaddbContext.Custmers.FirstOrDefault(a => a.Email.Equals(email))
+            var custmer = _sadaddbContext.Custmers.FirstOrDefault(a => a.Email.Equals(payload.Email))
                                                     ?? throw new SadadaException("Not Found");
 
             custmer.ConfirmationLink = Guid.NewGuid().ToString().Replace("-", "").ToString();
@@ -170,7 +171,8 @@ namespace Sadada.Core.Mangers
              {
                                     { "AssigneeName", $"{custmer.FirstName} {custmer.LastName}" },
                                     { "Link", $"{custmer.ConfirmationLink}" }
-             }, "https://localhost:5001/Custmer/ConfiremPassword");
+             }, "http://127.0.0.1:5500/newpassword.html");
+
 
             var message = new Message(new string[] { custmer.Email }, builder.GetTitle(), builder.GetBody(""));
             _emailSender.SendEmail(message);
@@ -181,11 +183,11 @@ namespace Sadada.Core.Mangers
             return mapped;
         }
 
-        public CustmerModel ConfiremPassword(string confirmation)
+        public CustmerModel ConfiremPassword(ConfirmModel confirmation)
         {
             var user = _sadaddbContext.Custmers
                .FirstOrDefault(a => a.ConfirmationLink
-                                        .Equals(confirmation)
+                                        .Equals(confirmation.Code)
                                          && !a.IsConfirmed)
            ?? throw new ServiceValidationException("Invalid or expired confirmation link received");
 

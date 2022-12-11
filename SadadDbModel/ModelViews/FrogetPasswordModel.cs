@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace SadadDbModel.ModelViews
 {
-    public class GetCustmersView
+    public class FrogetPasswordModel
     {
-        public int Id { get; set; }
-        public string FullName { get; set; }
-
-        public double TotalDept { get; set; }
+        public string Email { get; set; }
     }
 }

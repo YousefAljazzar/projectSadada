@@ -73,18 +73,18 @@ namespace projectSadada.Controllers
 
         [Route("ForgetPassword")]
         [HttpPost]
-        public IActionResult ForgetPassword(string email)
+        public IActionResult ForgetPassword(FrogetPasswordModel paylod)
         {
-            var custmer = _custmerManger.ForgetPassword(email);
+            var custmer = _custmerManger.ForgetPassword(paylod);
 
             return Ok(custmer);
 
         }
         [Route("ConfiremPassword")]
         [HttpGet]
-        public IActionResult ConfiremPassword(string confirmation)
+        public IActionResult ConfiremPassword(ConfirmModel paylod)
         {
-            var res = _custmerManger.ConfiremPassword(confirmation);
+            var res = _custmerManger.ConfiremPassword(paylod);
 
             return Ok(res);
         }
