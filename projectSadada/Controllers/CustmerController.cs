@@ -98,6 +98,15 @@ namespace projectSadada.Controllers
             return Ok(res);
         }
 
+        [Route("GetAllTranstations")]
+        [HttpGet]
+        public IActionResult GetAllTranstations()
+        {
+            var res = _custmerManger.GetAllTranstations();
+
+            return Ok(res);
+        }
+
 
     }
 }

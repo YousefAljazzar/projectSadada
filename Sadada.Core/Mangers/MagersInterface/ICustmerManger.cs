@@ -26,6 +26,8 @@ namespace Sadada.Core.Mangers.MagersInterface
 
         public CustmerModel ResetPassword(ResetPasswordView passwordView);
 
+        public List<TranstationsViewModel> GetAllTranstations();
+
         public PaginationView GetAllCustmersWithPagination(int page = 1, int pageSize = 10, string sortColumn = "", string sortDirection = "ascending", string searchText = "");
     }
 }

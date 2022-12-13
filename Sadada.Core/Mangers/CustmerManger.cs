@@ -17,6 +17,7 @@ using System.Text;
 using Sadada.Common.Extensions;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Threading.Tasks;
+using Microsoft.VisualBasic;
 
 namespace Sadada.Core.Mangers
 {
@@ -141,7 +142,7 @@ namespace Sadada.Core.Mangers
         public void RegisterDebt(AddDeptToCustmerView deptCustmer)
         {
             var custmer = _sadaddbContext.Custmers.FirstOrDefault(a => a.FirstName == deptCustmer.FirstName && a.LastName == deptCustmer.LastName)
-                                                ?? throw new SadadaException(300, "Not Found");
+                                                  ?? throw new SadadaException(300, "Not Found");
 
             var product = _sadaddbContext.Products.FirstOrDefault(a => a.Name.Equals(deptCustmer.Product));
 
@@ -164,14 +165,29 @@ namespace Sadada.Core.Mangers
             var custmer = _sadaddbContext.Custmers.Find(Id)
                                                   ?? throw new SadadaException("Not Avalibale");
 
-            var custmerTransiction = _sadaddbContext.Transactions.Where(a => a.UserId == Id).Select(a => new CustmerDetilesModel
-            {
-                ProductName = a.Product.Name,
-                ProductPrice = a.Product.Price,
-                CreatedDate = a.CreatedDate
-            }).ToList();
+            var custmerTransiction = _sadaddbContext.Transactions.Where(a => a.UserId == Id)
+                                                                 .Select(a => new CustmerDetilesModel
+                                                                 {
+                                                                     ProductName = a.Product.Name,
+                                                                     ProductPrice = a.Product.Price,
+                                                                     CreatedDate = a.CreatedDate
+                                                                 }).ToList();
 
             return custmerTransiction;
+        }
+
+        public List<TranstationsViewModel> GetAllTranstations()
+        {
+            var transtations = _sadaddbContext.Transactions.Select(a => new TranstationsViewModel
+            {
+                CustmerName = $"{a.User.FirstName} {a.User.LastName}",
+                Total = a.Product.Price * a.Quantity,
+                CreateDate = a.CreatedDate
+            }).ToList();
+
+            List<TranstationsViewModel> order= transtations.OrderByDescending(a => a.CreateDate).ToList();
+
+            return order;
         }
 
 
@@ -202,10 +218,14 @@ namespace Sadada.Core.Mangers
 
         public CustmerModel ConfiremPassword(ConfirmModel confirmation)
         {
+            if (string.IsNullOrEmpty(confirmation.Code))
+            {
+                throw new ServiceValidationException("Invalid or expired confirmation link received");
+            }
             var user = _sadaddbContext.Custmers
-               .FirstOrDefault(a => a.ConfirmationLink
-                                        .Equals(confirmation.Code)
-                                         && !a.IsConfirmed)
+                                      .FirstOrDefault(a => a.ConfirmationLink
+                                      .Equals(confirmation.Code)
+                                       && !a.IsConfirmed)
            ?? throw new ServiceValidationException("Invalid or expired confirmation link received");
 
             user.IsConfirmed = true;
