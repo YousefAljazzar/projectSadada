@@ -197,6 +197,7 @@ namespace Sadada.Core.Mangers
             }
 
             custmer.TotalDept = custmer.TotalDept - cus.Amount;
+
             _sadaddbContext.Update(custmer);
             _sadaddbContext.SaveChanges();
         }
