@@ -31,7 +31,7 @@ namespace projectSadada.Controllers
         [HttpGet("GetCustmerDetilesByID")]
         public IActionResult GetCustmerDetilesByID(int Id)
         {
-            var res=_custmerManger.GetCustmerDetilesByID(Id);
+            var res = _custmerManger.GetCustmerDetilesByID(Id);
 
             return Ok(res);
         }
@@ -105,6 +105,15 @@ namespace projectSadada.Controllers
             var res = _custmerManger.GetAllTranstations();
 
             return Ok(res);
+        }
+
+        [Route("EditCustmerDept")]
+        [HttpPut]
+        public IActionResult EditCustmerDept(EditCustmerDeptView cus)
+        {
+            _custmerManger.EditCustmerDept(cus);
+
+            return Ok("Done!");
         }
 
 

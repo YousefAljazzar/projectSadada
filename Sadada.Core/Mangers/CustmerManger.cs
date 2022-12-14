@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using BCrypt.Net;
 using Microsoft.IdentityModel.Tokens;
 using Sadada.Core.Mangers.MagersInterface;
 using Sadada.Models.Static;
@@ -15,9 +14,6 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using Sadada.Common.Extensions;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Threading.Tasks;
-using Microsoft.VisualBasic;
 
 namespace Sadada.Core.Mangers
 {
@@ -185,9 +181,24 @@ namespace Sadada.Core.Mangers
                 CreateDate = a.CreatedDate
             }).ToList();
 
-            List<TranstationsViewModel> order= transtations.OrderByDescending(a => a.CreateDate).ToList();
+            List<TranstationsViewModel> order = transtations.OrderByDescending(a => a.CreateDate).ToList();
 
             return order;
+        }
+
+        public void EditCustmerDept(EditCustmerDeptView cus)
+        {
+            var custmer = _sadaddbContext.Custmers.FirstOrDefault(a => a.FirstName.Equals(cus.FirstName) && a.LastName.Equals(cus.LastName))
+                                                   ?? throw new SadadaException("Invalid");
+
+            if (custmer.TotalDept < cus.Amount)
+            {
+                throw new SadadaException("Invalid");
+            }
+
+            custmer.TotalDept = custmer.TotalDept - cus.Amount;
+            _sadaddbContext.Update(custmer);
+            _sadaddbContext.SaveChanges();
         }
 
 

@@ -21,12 +21,14 @@ namespace Sadada.Core.Mangers.MagersInterface
         public List<CustmerDetilesModel> GetCustmerDetilesByID(int Id);
 
         public ForgetCustmerView ForgetPassword(FrogetPasswordModel paylod);
-        
+
         public CustmerModel ConfiremPassword(ConfirmModel paylod);
 
         public CustmerModel ResetPassword(ResetPasswordView passwordView);
 
         public List<TranstationsViewModel> GetAllTranstations();
+
+        public void EditCustmerDept(EditCustmerDeptView cus);
 
         public PaginationView GetAllCustmersWithPagination(int page = 1, int pageSize = 10, string sortColumn = "", string sortDirection = "ascending", string searchText = "");
     }
