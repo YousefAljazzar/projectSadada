@@ -106,6 +106,7 @@ namespace projectSadada
             services.AddScoped<ICustmerManger, CustmerManger>();
             services.AddScoped<ICommonManger, CommonManger>();
             services.AddScoped<IRoleManger, RoleManger>();
+            services.AddScoped<IUserManger, UserManger>();
 
         }
 
