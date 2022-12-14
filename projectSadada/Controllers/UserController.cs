@@ -2,7 +2,6 @@
 using Sadada.Core.Mangers.MagersInterface;
 using SadadDbModel.ModelViews;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace projectSadada.Controllers
 {
@@ -23,6 +22,15 @@ namespace projectSadada.Controllers
         public IActionResult UserLogin(UserLoginRequest user)
         {
             var res = _userManger.LoginInUser(user);
+
+            return Ok(res);
+        }
+
+        [HttpGet]
+        [Route("GetAllTranstationsById")]
+        public IActionResult GetAllTranstationsById(int Id)
+        {
+            var res = _userManger.GetAllTranstationsById(Id);
 
             return Ok(res);
         }

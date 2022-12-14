@@ -38,6 +38,19 @@ namespace Sadada.Core.Mangers
             res.Token = $"Bearer {GenerateJWTToken(user)}";
             return res;
         }
+        public List<TranstationsViewModel> GetAllTranstationsById(int Id)
+        {
+            var transtations = _sadaddbContext.Transactions.Where(a => a.UserId == Id).Select(a => new TranstationsViewModel
+            {
+                CustmerName = $"{a.User.FirstName} {a.User.LastName}",
+                Total = a.Product.Price * a.Quantity,
+                CreateDate = a.CreatedDate
+            }).ToList();
+
+            List<TranstationsViewModel> order = transtations.OrderByDescending(a => a.CreateDate).ToList();
+
+            return order;
+        }
 
 
 
