@@ -97,7 +97,7 @@ namespace projectSadada
             services.AddCors(o => o.AddPolicy("sadadPolciy", policy =>
             {
                 policy.WithOrigins("http://127.0.0.1:5500")
-                       .WithMethods()
+                       .AllowAnyMethod()
                        .AllowAnyHeader()
                        .AllowCredentials();
             }));
